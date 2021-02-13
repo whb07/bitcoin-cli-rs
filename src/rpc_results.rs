@@ -106,10 +106,17 @@ pub mod softforks {
 
         #[test]
         fn bip9status() {
-            assert_eq!(
-                "\"locked_in\"",
-                serde_json::to_string(&BIP9Status::Locked_In).unwrap()
-            );
+            let statuses = ["\"defined\"", "\"started\"", "\"locked_in\"", "\"active\"", "\"failed\""];
+            for status in statuses.iter(){
+                match status.as_ref() {
+                    "\"defined\"" => assert_eq!(&serde_json::to_string(&BIP9Status::Defined).unwrap(), status),
+                    "\"started\"" => assert_eq!(&serde_json::to_string(&BIP9Status::Started).unwrap(), status),
+                    "\"locked_in\"" => assert_eq!(&serde_json::to_string(&BIP9Status::Locked_In).unwrap(), status),
+                    "\"active\"" => assert_eq!(&serde_json::to_string(&BIP9Status::Active).unwrap(), status),
+                    "\"failed\"" => assert_eq!(&serde_json::to_string(&BIP9Status::Failed).unwrap(), status),
+                    _ => assert_eq!(&"invalid value at this point", status),
+                }
+            }
         }
         #[test]
         fn bip9stats() {
